@@ -1,0 +1,31 @@
+name: Security
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly at 00:00 UTC
+  push:
+    paths:
+      - '**/*.rs'
+      - '**/*.py'
+      - '**/*.ts'
+      - '**/*.js'
+      - 'Cargo.lock'
+      - 'package-lock.json'
+      - 'pnpm-lock.yaml'
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Dependency scanning
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+
+      # Secret scanning (built-in, no action needed)
+
+      # CodeQL (optional — add if you enable Advanced Security)
+      # - name: Initialize CodeQL
+      #   uses: github/codeql-action/init@v3
+      # - name: Perform CodeQL Analysis
+      #   uses: github/codeql-action/analyze@v3
